@@ -161,6 +161,10 @@ public class ZeebeeWorkers {
             zeebeClient.newCompleteCommand(job.getKey()).variables(variables).send().join();
         }).name("transfer-clearing-ams").maxJobsActive(workerMaxJobs).open();
 
+        zeebeClient.newWorker().jobType("test-worker").handler((client, job) -> {
+            Thread.sleep(5000);
+        }).name("test-worker").maxJobsActive(workerMaxJobs).open();
+
     }
 
     private Map<String, Object> setSuccessOrFailure(String scenario, Map<String, Object> variables) {
